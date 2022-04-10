@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+      <groupId>io.github.twenty-first</groupId>
+      <artifactId>twenfir-bom</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>twenfir-antlr</artifactId>
+
+    <name>Twenty-First ANTLR Add-ons</name>
+    <description>
+        Add-ons for the ANTLR parser generator
+    </description>
+    <url>https://github.com/twenty-first/twenfir-antlr</url>
+    <inceptionYear>2022</inceptionYear>
+    <organization>
+        <name>Twenty-First</name>
+        <url>https://github.com/twenty-first</url>
+    </organization>    
+    <developers>
+        <developer>
+            <name>Nicola Musatti</name>
+            <email>nicola.musatti@gmail.com</email>
+            <organization>Twenty-First</organization>
+            <organizationUrl>https://github.com/twenty-first</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</connection>
+        <developerConnection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</developerConnection>
+        <url>https://github.com/twenty-first/twenfir-antlr.git</url>
+    </scm>
+</project>
+
