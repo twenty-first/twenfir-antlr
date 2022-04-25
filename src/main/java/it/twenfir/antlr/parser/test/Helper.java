@@ -1,4 +1,4 @@
-package io.github.twenty_first.antlr.parser.test;
+package it.twenfir.antlr.parser.test;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;

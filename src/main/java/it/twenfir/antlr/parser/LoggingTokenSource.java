@@ -1,4 +1,4 @@
-package io.github.twenty_first.antlr.parser;
+package it.twenfir.antlr.parser;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Lexer;
