@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-public class FilesTest {
+public class FilesUnitTests {
 	
     @Test
     public void readResourceTest() throws IOException {
