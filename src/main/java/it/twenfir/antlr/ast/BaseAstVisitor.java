@@ -20,7 +20,7 @@ public abstract class BaseAstVisitor<ValueT> implements AstVisitor<ValueT> {
 
 	@Override
 	public ValueT visit(AstNode node) {
-		return node.accept(this);
+		return visitChildren(node);
 	}
 
 	@Override
