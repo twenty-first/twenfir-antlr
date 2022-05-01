@@ -5,28 +5,38 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.antlr.v4.runtime.ParserRuleContext;
-
 public abstract class AstNode {
 	
-    private ParserRuleContext context;
+    private Location location;
     private List<AstNode> children = new ArrayList<>();
 
-    public AstNode(ParserRuleContext context) {
-        this.context = context;
+    public AstNode(Location location) {
+        this.location = location;
     }
 
-    public ParserRuleContext getContext() {
-    	return context;
+    public int getLine() {
+        return location.getLine();
     }
 
-    protected void addChild(AstNode child) {
+    public int getPos() {
+        return location.getPos();
+    }
+
+    public int getStart() {
+        return location.getStart();
+    }
+
+    public int getEnd() {
+        return location.getEnd();
+    }
+
+    public void addChild(AstNode child) {
     	if ( child != null ) {
         	children.add(child);
     	}
     }
     
-    protected <N extends AstNode> void addChildren(Collection<N> children) {
+    public <N extends AstNode> void addChildren(Collection<N> children) {
     	if ( children != null ) {
         	this.children.addAll(children);
     	}
