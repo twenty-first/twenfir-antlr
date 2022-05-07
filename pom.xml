@@ -9,18 +9,26 @@
       <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>it.twenfir</groupId>
     <artifactId>twenfir-antlr</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>Twenty-First ANTLR Add-ons</name>
-    <description>
-        Add-ons for the ANTLR parser generator
-    </description>
+    <description>Add-ons for the ANTLR parser generator</description>
     <url>https://github.com/twenty-first/twenfir-antlr</url>
     <inceptionYear>2022</inceptionYear>
     <organization>
         <name>Twenty-First</name>
         <url>https://github.com/twenty-first</url>
-    </organization>    
+    </organization>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License v3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+        </license>
+    </licenses>
+
     <developers>
         <developer>
             <name>Nicola Musatti</name>
@@ -55,6 +63,33 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>    
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <scm>
         <connection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</connection>
         <developerConnection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</developerConnection>
