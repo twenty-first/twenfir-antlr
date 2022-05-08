@@ -8,13 +8,19 @@ import org.antlr.v4.runtime.TokenSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A TokenSource that logs token to SLF4J
+ */
 public class LoggingTokenSource implements TokenSource {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     private Lexer lexer;
 
-
+	/**
+	 * Constructor 
+	 * @param lexer the lexer from which to extract tokens
+	 */
 	public LoggingTokenSource(Lexer lexer) {
 		this.lexer = lexer;
 	}

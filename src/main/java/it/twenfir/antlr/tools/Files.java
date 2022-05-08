@@ -17,11 +17,25 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Utility functions to work with files
+ */
 public class Files {
 
 	private static Logger log = LoggerFactory.getLogger(Files.class);
 
-	public static String readFile(String name, List<String> path) throws IOException {
+
+	/**
+	 * Search for a source file in a set of directories and/or classpath locations.
+	 * 
+	 * When searching inside directories filenames are treated as case-insensitive.
+	 * Return the file contents as a string. Assumes the ISO 8859/1 charset.
+	 * @param name the name of the source file to be read
+	 * @param path a list of directories or classpath locations where the file may be found
+	 * @return a string containing the file's text
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws IOException in case of unexpected I/O errors
+	 */	public static String readFile(String name, List<String> path) throws IOException {
 		return readFile(name, path, StandardCharsets.ISO_8859_1);
 	}
 
@@ -29,7 +43,7 @@ public class Files {
 	 * Searches for a source file in a set of directories and/or classpath locations.
 	 * 
 	 * When searching inside directories filenames are treated as case-insensitive.
-	 *
+	 * Return the file contents as a string.
 	 * @param name the name of the source file to be read
 	 * @param path a list of directories or classpath locations where the file may be found
 	 * @param charset the character set in which the file is encoded
