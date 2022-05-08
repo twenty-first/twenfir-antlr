@@ -3,22 +3,23 @@ package it.twenfir.antlr.ast;
 import java.util.Iterator;
 
 /**
- * A helper base class for concrete visitor implementations
- * 
+ * A helper base class for concrete visitor implementations.
  * Subclasses should provide a default visit() override for each of the types in the AST.
+ * 
+ * @param <ValueT> the type of the value returned by this visitor
  */
 public abstract class BaseAstVisitor<ValueT> implements AstVisitor<ValueT> {
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 	public BaseAstVisitor() {
 	}
 
 	/**
-	 * Default leaf node implementation for visitors that compute aggregate values over nodes
+	 * Default leaf node implementation for visitors that compute aggregate values over nodes.
 	 * 
-	 * @return null 
+	 * @return <code>null</code> 
 	 */
 	@Override
 	public ValueT defaultValue() {
@@ -26,11 +27,11 @@ public abstract class BaseAstVisitor<ValueT> implements AstVisitor<ValueT> {
 	}
 
 	/**
-	 * Default internal node implementation for visitors that compute aggregate values over nodes
+	 * Default internal node implementation for visitors that compute aggregate values over nodes.
 	 * 
 	 * @param accumulator the running result of previous visits
-	 * @param value a value to add, e.g. the result of the last visit
-	 * @return the passed value
+	 * @param value       a value to add, e.g. the result of the last visit
+	 * @return            the passed value
 	 */
 	@Override
 	public ValueT aggregate(ValueT accumulator, ValueT value) {
@@ -38,11 +39,10 @@ public abstract class BaseAstVisitor<ValueT> implements AstVisitor<ValueT> {
 	}
 
 	/**
-	 * Default implementation of visiting a node
-	 * 
-	 * Visit children and return their aggregated value
+	 * Default implementation of visiting a node.
+	 * Visit children and return their aggregated value.
 	 * @param node the node to be visited
-	 * @return the aggregated value
+	 * @return     the aggregated value
 	 */
 	@Override
 	public ValueT visit(AstNode node) {
@@ -50,10 +50,9 @@ public abstract class BaseAstVisitor<ValueT> implements AstVisitor<ValueT> {
 	}
 
 	/**
-	 * Helper method that visits children and computes their aggregated value
-	 * 
+	 * Helper method that visits children and computes their aggregated value.
 	 * @param node the node whose children should be visited
-	 * @return the children's aggregated value
+	 * @return     the children's aggregated value
 	 */
 	@Override
 	public ValueT visitChildren(AstNode node) {

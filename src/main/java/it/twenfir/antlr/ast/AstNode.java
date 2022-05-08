@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * The base class of AST nodes
- * 
+ * The base class of AST nodes.
  * Provides access to children nodes and to source code location information.
  * Position is expressed as source code line and character as well as start and end tokens.
  */
@@ -16,13 +15,17 @@ public abstract class AstNode {
     private Location location;
     private List<AstNode> children = new ArrayList<>();
 
+    /**
+     * Constructor.
+     * 
+     * @param location the node's position within the source file
+     */
     public AstNode(Location location) {
         this.location = location;
     }
 
-    
     /** 
-     * Return the line where the node's text is located in the source code
+     * Return the line where the node's text is located in the source code.
      * 
      * @return the line number
      */
@@ -30,9 +33,8 @@ public abstract class AstNode {
         return location.getLine();
     }
 
-    
     /** 
-     * Return the position in the line where the node's text is located in the source code
+     * Return the position in the line where the node's text is located in the source code.
      * 
      * @return the position in the line
      */
@@ -40,9 +42,8 @@ public abstract class AstNode {
         return location.getPos();
     }
 
-    
     /** 
-     * Return the start token in the ANTLR token stream
+     * Return the start token in the ANTLR token stream.
      * 
      * @return the start token
      */
@@ -50,9 +51,8 @@ public abstract class AstNode {
         return location.getStart();
     }
 
-    
     /** 
-     * Return the end token in the ANTLR token stream
+     * Return the end token in the ANTLR token stream.
      * 
      * @return the end token
      */
@@ -60,9 +60,8 @@ public abstract class AstNode {
         return location.getEnd();
     }
 
-    
     /** 
-     * Add a child node
+     * Add a child node.
      * 
      * @param child the child node
      */
@@ -72,10 +71,10 @@ public abstract class AstNode {
     	}
     }
     
-    
     /** 
-     * Add a collection of children nodes
+     * Add a collection of children nodes.
      * 
+     * @param <N>      the children's type
      * @param children the children nodes
      */
     public <N extends AstNode> void addChildren(Collection<N> children) {
@@ -83,22 +82,21 @@ public abstract class AstNode {
         	this.children.addAll(children);
     	}
     }
-
     
     /** 
-     * Return a single child node of the specified type, assumed to be the only such node
+     * Return a single child node of the specified type, assumed to be the only such node.
      * 
-     * @param clazz the class of the requested child node
-     * @return the child node, or null if none exists
+     * @param <ChildT> the type of the requested child
+     * @param clazz    the class object of the requested child node
+     * @return         the child node, or <code>null</code> if none exists
      */
     public <ChildT extends AstNode> ChildT getChild(Class<ChildT> clazz) {
     	ChildrenIterator<ChildT> iter = new ChildrenIterator<ChildT>(getChildren(), clazz);
     	return iter.hasNext() ? iter.next() : null;
     }
     
-    
     /** 
-     * Return all the node's children
+     * Return all the node's children.
      * 
      * @return an iterator over the node's children
      */
@@ -106,23 +104,23 @@ public abstract class AstNode {
     	return children.iterator();
     }
     
-    
     /** 
-     * Return all the children nodes of the specified type
+     * Return all the children nodes of the specified type.
      * 
-     * @param clazz the class of the requested children
-     * @return an iterator over children of the specified type
+     * @param <ChildT> the type of the requested children
+     * @param clazz    the class object of the requested children
+     * @return         an iterator over children of the specified type
      */
     public <ChildT extends AstNode> Iterator<ChildT> getChildren(Class<ChildT> clazz) {
     	return new ChildrenIterator<ChildT>(getChildren(), clazz);
     }
-    
 	
     /** 
-     * Default implementation of accept() for AstVisitor's
+     * Default implementation of <code>accept</code> for <code>AstVisitor</code>'s.
      * 
-     * @param visitor the visitor
-     * @return the result of the visit
+     * @param <ValueT> the type returned by the visitor
+     * @param visitor  the visitor
+     * @return         the result of the visit
      */
     public <ValueT> ValueT accept(AstVisitor<? extends ValueT> visitor) {
     	return visitor.visit(this);
@@ -130,7 +128,7 @@ public abstract class AstNode {
 
     
     /** 
-     * Return the class name of the node
+     * Return the class name of the node.
      * 
      * @return the class name
      */

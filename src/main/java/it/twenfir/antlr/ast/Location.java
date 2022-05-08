@@ -1,7 +1,7 @@
 package it.twenfir.antlr.ast;
 
 /**
- * A position in a source file, both as line and character, and as start and end token index
+ * A position in a source file, both as line and character, and as start and end token index.
  */
 public class Location {
     
@@ -11,12 +11,12 @@ public class Location {
     private int end;
 
     /**
-     * Constructor
+     * Constructor.
      * 
-     * @param line the line in the source file
-     * @param pos the character position in the line
+     * @param line  the line in the source file
+     * @param pos   the character position in the line
      * @param start the start token
-     * @param end the end token
+     * @param end   the end token
      */
     public Location(int line, int pos, int start, int end) {
         this.line = line;
@@ -27,7 +27,7 @@ public class Location {
 
     
     /** 
-     * Return the source file line
+     * Return the source file line.
      * 
      * @return the line number
      */
@@ -37,7 +37,7 @@ public class Location {
 
     
     /** 
-     * Return the position in the line
+     * Return the position in the line.
      * 
      * @return the position
      */
@@ -47,7 +47,7 @@ public class Location {
 
     
     /** 
-     * Return the start token
+     * Return the start token.
      * 
      * @return the start token
      */
@@ -57,7 +57,7 @@ public class Location {
 
     
     /** 
-     * Return the end token
+     * Return the end token.
      * 
      * @return the end token
      */

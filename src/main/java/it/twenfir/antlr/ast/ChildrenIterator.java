@@ -4,7 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * An iterator that only returns elements of the specified class
+ * An iterator that only returns elements of the specified class.
+ * 
+ * @param <NodeT> the type of the returned elements
  */
 public class ChildrenIterator<NodeT extends AstNode> implements Iterator<NodeT> {
 
@@ -13,9 +15,9 @@ public class ChildrenIterator<NodeT extends AstNode> implements Iterator<NodeT> 
 	Class<? extends NodeT> clazz;
 	
 	/**
-	 * Constructor
+	 * Constructor.
 	 * 
-	 * @param iter an iterator from which to extract elements
+	 * @param iter  an iterator from which to extract elements
 	 * @param clazz the class object of the type elements must belong to
 	 */
 	public ChildrenIterator(Iterator<AstNode> iter, Class<? extends NodeT> clazz) {
@@ -36,21 +38,19 @@ public class ChildrenIterator<NodeT extends AstNode> implements Iterator<NodeT> 
 		}
 	}
 	
-	
 	/** 
-	 * Whether the iterator has more elements
+	 * Return whether the iterator has more elements.
 	 * 
-	 * @return true if there are elements available, false otherwise
+	 * @return <code>true</code> if there are elements available, <code>false</code> otherwise
 	 */
 	@Override
 	public boolean hasNext() {
 		advance();
 		return current != null;
 	}
-
 	
 	/** 
-	 * Return the current element and advance to the next position
+	 * Return the current element and advance to the next position.
 	 * 
 	 * @return the current element 
 	 */
