@@ -1,6 +1,7 @@
 package it.twenfir.antlr.tools;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,8 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import it.twenfir.antlr.exception.FileException;
 
 /**
  * Utility functions to work with files.
@@ -39,7 +42,7 @@ public class Files {
 	}
 
 	/**
-	 * Searches for a source file in a set of directories and/or classpath locations.
+	 * Search for a source file in a set of directories and/or classpath locations.
 	 * When searching inside directories filenames are treated as case-insensitive.
 	 * Return the file contents as a string.
 	 * 
@@ -104,4 +107,23 @@ public class Files {
 		throw new FileNotFoundException("File " + name + " not found");
 	}
 
+	
+	/** 
+	 * Ensures that the given path is an existing directory.
+	 * 
+	 * @param path a directory path to verify and, if necessary, create.
+	 * @return the corresponding java.nio.file.Path object
+	 * @throws FileException if the given path is not a directory
+	 */
+	public static Path makeDir(String path) {
+		Path p = FileSystems.getDefault().getPath(path != null ? path : ".");
+		File dir = p.toFile();
+		if ( ! dir.exists() ) {
+			dir.mkdirs();
+		}
+		else if ( ! dir.isDirectory() ) {
+			throw new FileException("Not a directory");
+		}
+		return p;
+	}
 }
