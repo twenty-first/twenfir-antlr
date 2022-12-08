@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.antlr.v4.runtime.tree.RuleNode;
 
+import it.twenfir.antlr.exception.AstException;
+
 /**
  * Provide methods to help building AST's 
  */
@@ -31,6 +33,31 @@ public class AstHelper {
 				parent.addChild(child);
 			}
 		}
+	}
+
+	/** 
+	 * Visit the single child of an ANTLR parse tree node and return the corresponding AST node.
+	 * Assumes that the default implementation of <code>visit</code> returns null making it possible
+	 * to override it only for interesting nodes.
+	 * 
+	 * @param <V> 	  the visitor's type
+	 * @param visitor the visitor implementation
+	 * @param node    the current parse tree node 
+	 * @return        the AST node corresponding to the current parse tree node
+	 */
+	public static <V extends ParseTreeVisitor<? extends AstNode>> AstNode visitChild(V visitor, RuleNode node) {
+		int n = node.getChildCount();
+		if ( n > 1 ) {
+			throw new AstException("Parse tree node has multiple children");
+		}
+		else if ( n == 1 ) {
+			ParseTree c = node.getChild(0);
+			AstNode child = c.accept(visitor);
+			if ( child != null ) {
+				return child;
+			}
+		} 
+		return null;
 	}
 
 	/** 
