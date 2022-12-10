@@ -84,6 +84,15 @@ public abstract class AstNode {
     }
     
     /** 
+     * Return all the node's children.
+     * 
+     * @return an iterator over the node's children
+     */
+    public Iterator<AstNode> getChildren() {
+    	return children.iterator();
+    }
+    
+    /** 
      * Return a single child node of the specified type, assumed to be the only such node.
      * 
      * @param <ChildT> the type of the requested child
@@ -96,15 +105,6 @@ public abstract class AstNode {
     }
     
     /** 
-     * Return all the node's children.
-     * 
-     * @return an iterator over the node's children
-     */
-    public Iterator<AstNode> getChildren() {
-    	return children.iterator();
-    }
-    
-    /** 
      * Return all the children nodes of the specified type.
      * 
      * @param <ChildT> the type of the requested children
@@ -113,6 +113,29 @@ public abstract class AstNode {
      */
     public <ChildT extends AstNode> Iterator<ChildT> getChildren(Class<ChildT> clazz) {
     	return new ChildrenIterator<ChildT>(getChildren(), clazz);
+    }
+    
+    /** 
+     * Return a single descendant node of the specified type, assumed to be the only such node.
+     * 
+     * @param <ChildT> the type of the requested child
+     * @param clazz    the class object of the requested child node
+     * @return         the descendant node, or <code>null</code> if none exists
+     */
+    public <ChildT extends AstNode> ChildT getDescendant(Class<ChildT> clazz) {
+    	ChildrenIterator<ChildT> iter = new ChildrenIterator<ChildT>(new WalkerIterator(this), clazz);
+    	return iter.hasNext() ? iter.next() : null;
+    }
+    
+    /** 
+     * Return all the descendant nodes of the specified type.
+     * 
+     * @param <ChildT> the type of the requested children
+     * @param clazz    the class object of the requested children
+     * @return         an iterator over descendants of the specified type
+     */
+    public <ChildT extends AstNode> Iterator<ChildT> getDescendants(Class<ChildT> clazz) {
+    	return new ChildrenIterator<ChildT>(new WalkerIterator(this), clazz);
     }
 	
     /** 
