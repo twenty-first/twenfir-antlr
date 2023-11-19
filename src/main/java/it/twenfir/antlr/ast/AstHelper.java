@@ -26,7 +26,6 @@ public class AstHelper {
 	public static <V extends ParseTreeVisitor<? extends AstNode>> void visitChildren(V visitor, RuleNode node, AstNode parent) {
 		int n = node.getChildCount();
 		for (int i=0; i<n; i++) {
-
 			ParseTree c = node.getChild(i);
 			AstNode child = c.accept(visitor);
 			if ( child != null ) {
@@ -71,4 +70,25 @@ public class AstHelper {
         return new Location(start.getLine(), start.getCharPositionInLine(), start.getTokenIndex(), 
                 context.getStop().getTokenIndex());
     }
+
+	public static <V extends ParseTreeVisitor<? extends AstNode>> AstNode visit(V visitor, ParserRuleContext ctx) {
+		int n = ctx.getChildCount();
+		if ( n == 1 ) {
+			ParseTree c = ctx.getChild(0);
+			return c.accept(visitor);
+		}
+		else {
+			Location location = location(ctx);
+			Node node = new Node(location);
+			for (int i=0; i<n; i++) {
+				ParseTree c = ctx.getChild(i);
+				AstNode child = c.accept(visitor);
+				if ( child != null ) {
+					node.addChild(child);
+				}
+			}
+			return node;
+		}
+	}
+
 }
