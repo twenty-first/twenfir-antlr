@@ -110,6 +110,6 @@
         <connection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</connection>
         <developerConnection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</developerConnection>
         <url>https://github.com/twenty-first/twenfir-antlr.git</url>
-      <tag>HEAD</tag>
+      <tag>0.0</tag>
   </scm>
 </project>
