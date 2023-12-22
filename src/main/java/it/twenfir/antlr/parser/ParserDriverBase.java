@@ -5,12 +5,15 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.slf4j.Logger;
 
+import it.twenfir.antlr.api.ErrorListener;
+import it.twenfir.antlr.ast.AstNode;
+import it.twenfir.antlr.exception.AstException;
 import it.twenfir.antlr.exception.ParseException;
 
 /**
  * Base class for parser drivers
  */
-public class ParserDriverBase extends BaseErrorListener {
+public class ParserDriverBase extends BaseErrorListener implements ErrorListener {
     
 	private Logger log;
 	private boolean throwOnError;
@@ -51,6 +54,25 @@ public class ParserDriverBase extends BaseErrorListener {
 		if ( throwOnError && e != null ) {
 			throw new ParseException("Parse error", e);
 		}
+	}
+
+	@Override
+	public void astError(AstNode node, String msg) {
+		errors = true;
+		log.error(String.format("%s: %s(%d, %d): %s", name, fileName, node.getLine(), node.getPos(), msg));
+	}
+
+	@Override
+	public void astError(AstNode node, String msg, RuntimeException e) {
+		astError(node, msg);
+		if ( throwOnError && e != null ) {
+			throw new AstException("AST error", e);
+		}
+	}
+
+	@Override
+	public void astWarning(AstNode node, String msg) {
+		log.warn(String.format("%s: %s(%d, %d): %s", name, fileName, node.getLine(), node.getPos(), msg));
 	}
 
 	/**

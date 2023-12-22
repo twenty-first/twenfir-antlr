@@ -5,7 +5,9 @@ package it.twenfir.antlr.exception;
  */
 public class FileException extends RuntimeException {
 
-    public FileException(String message) {
+    private static final long serialVersionUID = 1L;
+
+	public FileException(String message) {
         super(message);
     }
 
