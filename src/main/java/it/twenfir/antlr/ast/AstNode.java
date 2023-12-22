@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class AstNode {
 	
     private Location location;
+    private AstNode parent;
     private List<AstNode> children = new ArrayList<>();
 
     /**
@@ -24,7 +25,25 @@ public abstract class AstNode {
         this.location = location;
     }
 
-    /** 
+    /**
+     * Return the node's parent.
+     * 
+     * @return the node's parent
+     */
+    public AstNode getParent() {
+		return parent;
+	}
+
+    /**
+     * Set the node's parent.
+     * 
+     * @param parent the node's parent
+     */
+	void setParent(AstNode parent) {
+		this.parent = parent;
+	}
+
+	/** 
      * Return the line where the node's text is located in the source code.
      * 
      * @return the line number
@@ -68,6 +87,7 @@ public abstract class AstNode {
     public void addChild(AstNode child) {
     	if ( child != null ) {
         	children.add(child);
+        	child.setParent(this);
     	}
     }
     
@@ -79,7 +99,10 @@ public abstract class AstNode {
      */
     public <N extends AstNode> void addChildren(Collection<N> children) {
     	if ( children != null ) {
-        	this.children.addAll(children);
+    		for ( N n : children ) {
+    			children.add(n);
+    			n.setParent(this);
+    		}
     	}
     }
     
@@ -148,7 +171,6 @@ public abstract class AstNode {
     public <ValueT> ValueT accept(AstVisitor<? extends ValueT> visitor) {
     	return visitor.visit(this);
     }
-
     
     /** 
      * Return the class name of the node.
