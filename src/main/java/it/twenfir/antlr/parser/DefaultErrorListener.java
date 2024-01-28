@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.Recognizer;
 import it.twenfir.antlr.ast.AstNode;
 
 /**
- * A default implementation of the {@link it.twentfir.antlr.api.ErrorListener} interface that just
+ * A default implementation of the {@link it.twenfir.antlr.api.ErrorListener} interface that just
  * keeps track of whether errors have occurred.
  */
 public class DefaultErrorListener extends ErrorListenerBase {
