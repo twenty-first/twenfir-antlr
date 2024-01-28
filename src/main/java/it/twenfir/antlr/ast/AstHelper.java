@@ -71,6 +71,15 @@ public class AstHelper {
                 context.getStop().getTokenIndex());
     }
 
+	/**
+	 * Alternative implementation for the default visit method of an AST listener that creates
+	 * anonymous nodes when there is more than one descendant.
+	 * 
+	 * @param <V>	  the type of the visitor
+	 * @param visitor the visitor instance
+	 * @param ctx	  the current rule context
+	 * @return		  the single descendant or a new anonymous node
+	 */
 	public static <V extends ParseTreeVisitor<? extends AstNode>> AstNode visit(V visitor, ParserRuleContext ctx) {
 		int n = ctx.getChildCount();
 		if ( n == 1 ) {

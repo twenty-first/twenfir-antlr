@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A TokenSource that logs token to SLF4J.
+ * A TokenSource that logs tokens to SLF4J.
  */
 public class LoggingTokenSource implements TokenSource {
 

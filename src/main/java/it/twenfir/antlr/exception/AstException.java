@@ -1,7 +1,7 @@
 package it.twenfir.antlr.exception;
 
 /**
- * Exception thrown on parsing errors.
+ * Exception thrown on AST building errors.
  */
 public class AstException extends RuntimeException {
 

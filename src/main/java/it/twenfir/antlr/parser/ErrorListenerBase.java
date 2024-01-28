@@ -5,7 +5,10 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import it.twenfir.antlr.api.ErrorListener;
 import it.twenfir.antlr.ast.AstNode;
 
-public class ErrorListenerBase extends BaseErrorListener implements ErrorListener {
+/**
+ * Helper implementation of the {@link it.twenfir.antlr.api.ErrorListener}
+ */
+public abstract class ErrorListenerBase extends BaseErrorListener implements ErrorListener {
 
 	@Override
 	public void astError(AstNode node, String msg) {
@@ -19,4 +22,8 @@ public class ErrorListenerBase extends BaseErrorListener implements ErrorListene
 	public void astWarning(AstNode node, String msg) {
 	}
 
+	@Override
+	public boolean isErrors() {
+		return false;
+	}
 }

@@ -4,11 +4,19 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
+/**
+ * An iterator that traverses an AST
+ */
 public class WalkerIterator implements Iterator<AstNode> {
 
     private Stack<Iterator<AstNode>> stack = new Stack<>();
     private AstNode current;
     
+    /**
+     * Constructor.
+     * 
+     * @param node	the root of the AST subtree to be traversed
+     */
     public WalkerIterator(AstNode node) {
         stack.push(node.getChildren());
     }
