@@ -1,8 +1,10 @@
 package it.twenfir.antlr.tools;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +20,8 @@ public class FilesIntegrationTests {
     public void readResourceTest() throws IOException {
     	String s = Files.readFile("logback.xml", Arrays.asList("classpath:"));
     	assertTrue(s.indexOf("twenfir") != -1);
+
+    	assertThrows(FileNotFoundException.class, () -> Files.readFile("logback.xml", Arrays.asList("classpath:"), t -> t.indexOf("not present") != -1));
     }
 
     @Test

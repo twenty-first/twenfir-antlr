@@ -12,6 +12,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,6 +55,40 @@ public class Files {
 	 * @throws IOException in case of unexpected I/O errors
 	 */
 	public static String readFile(String name, List<String> path, Charset charset) throws IOException {
+		return readFile(name, path, charset, null);
+	}
+
+	/**
+	 * Search for a source file in a set of directories and/or classpath locations.
+	 * When searching inside directories filenames are treated as case-insensitive.
+	 * Return the file contents as a string.
+	 * 
+	 * @param name the name of the source file to be read
+	 * @param path a list of directories or classpath locations where the file may be found
+	 * @param valid predicate to perform validity test on the file
+	 * @return a string containing the file's text
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws IOException in case of unexpected I/O errors
+	 */
+	public static String readFile(String name, List<String> path, Predicate<String> valid) throws IOException {
+		return readFile(name, path, null, valid);
+	}
+
+	/**
+	 * Search for a source file in a set of directories and/or classpath locations.
+	 * When searching inside directories filenames are treated as case-insensitive.
+	 * Return the file contents as a string.
+	 * 
+	 * @param name the name of the source file to be read
+	 * @param path a list of directories or classpath locations where the file may be found
+	 * @param charset the character set in which the file is encoded
+	 * @param valid predicate to perform validity test on the file
+	 * @return a string containing the file's text
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws IOException in case of unexpected I/O errors
+	 */
+	public static String readFile(String name, List<String> path, Charset charset, 
+			Predicate<String> valid) throws IOException {
 		for ( String d: path ) {
 			if ( d.startsWith("classpath:") ) {
 				String resource = d.substring("classpath:".length());
@@ -73,7 +108,10 @@ public class Files {
 						read.append('\n');
 					}
 					log.debug("Read resource " + resource);
-					return read.toString();
+					String text = read.toString();
+					if ( valid == null || valid.test(text) ) {
+						return text;
+					}
 				}
 				catch ( Exception e ) {
 					log.warn("Error reading resource: " + e.getMessage());
@@ -96,7 +134,10 @@ public class Files {
 							read.append('\n');
 						}
 						log.debug("Read file " + p.toString());
-						return read.toString();
+						String text = read.toString();
+						if ( valid == null || valid.test(text) ) {
+							return text;
+						}
 					}
 				}
 				catch ( Exception e ) {
