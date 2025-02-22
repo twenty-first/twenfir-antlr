@@ -5,12 +5,12 @@
       <groupId>it.twenfir</groupId>
       <artifactId>twenfir-bom</artifactId>
       <version>0.0.8</version>
-      <relativePath></relativePath>
+      <relativePath />
     </parent>
 
     <groupId>it.twenfir</groupId>
     <artifactId>twenfir-antlr</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.0.13</version>
 
     <name>Twenty-First ANTLR Add-ons</name>
     <description>Add-ons for the ANTLR parser generator</description>
@@ -111,6 +111,6 @@
         <connection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</connection>
         <developerConnection>scm:git:git@github.com:twenty-first/twenfir-antlr.git</developerConnection>
         <url>https://github.com/twenty-first/twenfir-antlr.git</url>
-      <tag>0.0</tag>
+      <tag>v0.0.13</tag>
   </scm>
 </project>
