@@ -19,7 +19,9 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import it.twenfir.antlr.api.ErrorListener;
 import it.twenfir.antlr.exception.FileException;
+import it.twenfir.antlr.parser.DefaultErrorListener;
 
 /**
  * Utility functions to work with files.
@@ -38,7 +40,8 @@ public class Files {
 	 * @return a string containing the file's text
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
-	 */	public static String readFile(String name, List<String> path) throws IOException {
+	 */	
+	public static String readFile(String name, List<String> path) throws IOException {
 		return readFile(name, path, StandardCharsets.ISO_8859_1);
 	}
 
@@ -55,7 +58,24 @@ public class Files {
 	 * @throws IOException in case of unexpected I/O errors
 	 */
 	public static String readFile(String name, List<String> path, Charset charset) throws IOException {
-		return readFile(name, path, charset, null);
+		return readFile(name, path, charset, null, new DefaultErrorListener());
+	}
+
+	/**
+	 * Search for a source file in a set of directories and/or classpath locations.
+	 * When searching inside directories filenames are treated as case-insensitive.
+	 * Return the file contents as a string.
+	 * 
+	 * @param name the name of the source file to be read
+	 * @param path a list of directories or classpath locations where the file may be found
+	 * @param charset the character set in which the file is encoded
+	 * @param a custom error listener
+	 * @return a string containing the file's text
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws IOException in case of unexpected I/O errors
+	 */
+	public static String readFile(String name, List<String> path, Charset charset, ErrorListener listener) throws IOException {
+		return readFile(name, path, charset, null, listener);
 	}
 
 	/**
@@ -71,7 +91,24 @@ public class Files {
 	 * @throws IOException in case of unexpected I/O errors
 	 */
 	public static String readFile(String name, List<String> path, Predicate<String> valid) throws IOException {
-		return readFile(name, path, null, valid);
+		return readFile(name, path, null, valid, new DefaultErrorListener());
+	}
+
+	/**
+	 * Search for a source file in a set of directories and/or classpath locations.
+	 * When searching inside directories filenames are treated as case-insensitive.
+	 * Return the file contents as a string.
+	 * 
+	 * @param name the name of the source file to be read
+	 * @param path a list of directories or classpath locations where the file may be found
+	 * @param valid predicate to perform validity test on the file
+	 * @param a custom error listener
+	 * @return a string containing the file's text
+	 * @throws FileNotFoundException if the file is not found
+	 * @throws IOException in case of unexpected I/O errors
+	 */
+	public static String readFile(String name, List<String> path, Predicate<String> valid, ErrorListener listener) throws IOException {
+		return readFile(name, path, null, valid, listener);
 	}
 
 	/**
@@ -83,12 +120,13 @@ public class Files {
 	 * @param path a list of directories or classpath locations where the file may be found
 	 * @param charset the character set in which the file is encoded
 	 * @param valid predicate to perform validity test on the file
+	 * @param a custom error listener
 	 * @return a string containing the file's text
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
 	public static String readFile(String name, List<String> path, Charset charset, 
-			Predicate<String> valid) throws IOException {
+			Predicate<String> valid, ErrorListener listener) throws IOException {
 		for ( String d: path ) {
 			if ( d.startsWith("classpath:") ) {
 				String resource = d.substring("classpath:".length());
@@ -114,7 +152,7 @@ public class Files {
 					}
 				}
 				catch ( Exception e ) {
-					log.warn("Error reading resource: " + e.getMessage());
+					listener.readWarning(name, "Error reading resource: " + e.getMessage());
 				}
 			}
 			else {
@@ -141,14 +179,13 @@ public class Files {
 					}
 				}
 				catch ( Exception e ) {
-					log.warn("Error reading file: " + e.getMessage());
+					listener.readWarning(name, "Error reading file: " + e.getMessage());
 				}
 			}
 		}
 		throw new FileNotFoundException("File " + name + " not found");
 	}
 
-	
 	/** 
 	 * Ensures that the given path is an existing directory.
 	 * 

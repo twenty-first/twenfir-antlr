@@ -23,6 +23,18 @@ public abstract class ErrorListenerBase extends BaseErrorListener implements Err
 	}
 
 	@Override
+	public void readError(String name, String msg) {
+	}
+
+	@Override
+	public void readError(String name, String msg, RuntimeException e) {
+	}
+
+	@Override
+	public void readWarning(String name, String msg) {
+	}
+
+	@Override
 	public boolean isErrors() {
 		return false;
 	}
