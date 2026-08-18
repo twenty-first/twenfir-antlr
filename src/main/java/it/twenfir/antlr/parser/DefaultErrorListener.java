@@ -31,6 +31,16 @@ public class DefaultErrorListener extends ErrorListenerBase {
 	public void astError(AstNode node, String msg, RuntimeException e) {
 		errors = true;
 	}
+
+	@Override
+	public void readError(String name, String msg) {
+		errors = true;
+	}
+
+	@Override
+	public void readError(String name, String msg, RuntimeException e) {
+		errors = true;
+	}
 	
 	@Override
 	public boolean isErrors() {
