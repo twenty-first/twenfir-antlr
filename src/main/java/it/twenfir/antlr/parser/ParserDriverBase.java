@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import it.twenfir.antlr.api.ErrorListener;
 import it.twenfir.antlr.ast.AstNode;
 import it.twenfir.antlr.exception.AstException;
-import it.twenfir.antlr.exception.FileException;
 import it.twenfir.antlr.exception.ParseException;
 
 /**
@@ -101,24 +100,6 @@ public class ParserDriverBase extends BaseErrorListener implements ErrorListener
 	 */
 	public String getFileName() {
 		return fileName;
-	}
-
-	@Override
-	public void readError(String name, String msg) {
-		log.error(String.format("%s: %s: %s", name, fileName, msg));
-	}
-
-	@Override
-	public void readError(String name, String msg, RuntimeException e) {
-		readError(name, msg);
-		if ( throwOnError && e != null ) {
-			throw new FileException("Input error", e);
-		}
-	}
-
-	@Override
-	public void readWarning(String name, String msg) {
-		log.warn(String.format("%s: %s: %s", name, fileName, msg));
 	}
 
 	/**

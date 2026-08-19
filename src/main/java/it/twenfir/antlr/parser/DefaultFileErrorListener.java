@@ -9,26 +9,20 @@ import it.twenfir.antlr.ast.AstNode;
  * A default implementation of the {@link it.twenfir.antlr.api.ErrorListener} interface that just
  * keeps track of whether errors have occurred.
  */
-public class DefaultErrorListener extends ErrorListenerBase {
+public class DefaultFileErrorListener extends FileErrorListenerBase {
 
 	private boolean errors = false;
 	
-	public DefaultErrorListener() {
+	public DefaultFileErrorListener() {
 	}
 
 	@Override
-	public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
-			String msg, RecognitionException e) {
-		errors = true;
-	}
-	
-	@Override
-	public void astError(AstNode node, String msg) {
+	public void readError(String name, String msg) {
 		errors = true;
 	}
 
 	@Override
-	public void astError(AstNode node, String msg, RuntimeException e) {
+	public void readError(String name, String msg, RuntimeException e) {
 		errors = true;
 	}
 	
