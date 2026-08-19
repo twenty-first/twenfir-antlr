@@ -12,14 +12,15 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import it.twenfir.antlr.api.SourceFile;
 import it.twenfir.antlr.exception.FileException;
 
 public class FilesIntegrationTests {
 	
     @Test
     public void readResourceTest() throws IOException {
-    	String s = Files.readFile("logback.xml", Arrays.asList("classpath:"));
-    	assertTrue(s.indexOf("twenfir") != -1);
+    	SourceFile sf = Files.readFile("logback.xml", Arrays.asList("classpath:"));
+    	assertTrue(sf.getText().indexOf("twenfir") != -1);
 
     	assertThrows(FileNotFoundException.class, () -> Files.readFile("logback.xml", Arrays.asList("classpath:"), t -> t.indexOf("not present") != -1));
     }
