@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import it.twenfir.antlr.api.FileErrorListener;
+import it.twenfir.antlr.api.SourceFile;
 import it.twenfir.antlr.exception.FileException;
 import it.twenfir.antlr.parser.DefaultFileErrorListener;
 
@@ -41,7 +42,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */	
-	public static String readFile(String name, List<String> path) throws IOException {
+	public static SourceFile readFile(String name, List<String> path) throws IOException {
 		return readFile(name, path, StandardCharsets.ISO_8859_1);
 	}
 
@@ -57,7 +58,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static String readFile(String name, List<String> path, Charset charset)
+	public static SourceFile readFile(String name, List<String> path, Charset charset)
 			throws IOException {
 		return readFile(name, path, charset, null, new DefaultFileErrorListener());
 	}
@@ -75,7 +76,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static String readFile(String name, List<String> path, Charset charset,
+	public static SourceFile readFile(String name, List<String> path, Charset charset,
 			FileErrorListener listener) throws IOException {
 		return readFile(name, path, charset, null, listener);
 	}
@@ -92,7 +93,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static String readFile(String name, List<String> path, Predicate<String> valid)
+	public static SourceFile readFile(String name, List<String> path, Predicate<String> valid)
 			throws IOException {
 		return readFile(name, path, null, valid, new DefaultFileErrorListener());
 	}
@@ -110,7 +111,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static String readFile(String name, List<String> path, Predicate<String> valid,
+	public static SourceFile readFile(String name, List<String> path, Predicate<String> valid,
 			FileErrorListener listener) throws IOException {
 		return readFile(name, path, null, valid, listener);
 	}
@@ -129,7 +130,7 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static String readFile(String name, List<String> path, Charset charset, 
+	public static SourceFile readFile(String name, List<String> path, Charset charset, 
 			Predicate<String> valid, FileErrorListener listener) throws IOException {
 		for ( String d: path ) {
 			if ( d.startsWith("classpath:") ) {
@@ -152,7 +153,7 @@ public class Files {
 					log.debug("Read resource " + resource);
 					String text = read.toString();
 					if ( valid == null || valid.test(text) ) {
-						return text;
+						return new SourceFile(resource, text);
 					}
 				}
 				catch ( Exception e ) {
@@ -178,7 +179,7 @@ public class Files {
 						log.debug("Read file " + p.toString());
 						String text = read.toString();
 						if ( valid == null || valid.test(text) ) {
-							return text;
+							return new SourceFile(p.toString(), text);
 						}
 					}
 				}
@@ -187,7 +188,9 @@ public class Files {
 				}
 			}
 		}
-		throw new FileNotFoundException("File " + name + " not found");
+		String msg = "File " + name + " not found";
+		listener.readError(name, msg);
+		throw new FileNotFoundException(msg);
 	}
 
 	/** 
