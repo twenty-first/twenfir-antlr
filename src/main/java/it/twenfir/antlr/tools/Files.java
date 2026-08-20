@@ -122,7 +122,7 @@ public class Files {
 	 * Return the file contents as a string.
 	 * 
 	 * @param name the name of the source file to be read
-	 * @param path a list of directories or classpath locations where the file may be found
+	 * @param paths a list of directories or classpath locations where the file may be found
 	 * @param charset the character set in which the file is encoded
 	 * @param valid predicate to perform validity test on the file
 	 * @param a custom error listener
@@ -130,9 +130,9 @@ public class Files {
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
 	 */
-	public static SourceFile readFile(String name, List<String> path, Charset charset, 
+	public static SourceFile readFile(String name, List<String> paths, Charset charset, 
 			Predicate<String> valid, FileErrorListener listener) throws IOException {
-		for ( String d: path ) {
+		for ( String d: paths ) {
 			if ( d.startsWith("classpath:") ) {
 				String resource = d.substring("classpath:".length());
 				if ( resource.length() > 0 ) {
@@ -157,40 +157,39 @@ public class Files {
 					}
 				}
 				catch ( Exception e ) {
-					listener.readWarning(name, "Error reading resource: " + e.getMessage());
+					listener.readWarning(resource, "Error reading resource: " + e.getMessage());
 				}
 			}
 			else {
+				Path path = null;
 				try ( Stream<Path> files = java.nio.file.Files.list(
 						FileSystems.getDefault().getPath(d)) ) {
 					Optional<Path> o = files
 							.filter(p -> p.getFileName().toString().compareToIgnoreCase(name) == 0)
 							.findFirst();
 					if ( o.isPresent() ) {
-						Path p = o.get();
+						path = o.get();
 						// JDK 11
 						// String read = java.nio.file.Files.readString(p, charset);
 						StringBuilder read = new StringBuilder();
-						List<String> lines = java.nio.file.Files.readAllLines(p, charset);
+						List<String> lines = java.nio.file.Files.readAllLines(path, charset);
 						for ( String l: lines ) {
 							read.append(l);
 							read.append('\n');
 						}
-						log.debug("Read file " + p.toString());
+						log.debug("Read file " + path.toString());
 						String text = read.toString();
 						if ( valid == null || valid.test(text) ) {
-							return new SourceFile(p.toString(), text);
+							return new SourceFile(path.toString(), text);
 						}
 					}
 				}
 				catch ( Exception e ) {
-					listener.readWarning(name, "Error reading file: " + e.getMessage());
+					listener.readWarning(path != null ? path.toString() : name, "Error reading file: " + e.getMessage());
 				}
 			}
 		}
-		String msg = "File " + name + " not found";
-		listener.readError(name, msg);
-		throw new FileNotFoundException(msg);
+		throw new FileNotFoundException("File " + name + " not found");
 	}
 
 	/** 
