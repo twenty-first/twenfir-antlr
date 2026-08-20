@@ -8,7 +8,7 @@ public interface FileErrorListener {
 	/**
 	 * Notify an input error.
 	 * 
-	 * @param node	the file that was being read when the error occurred
+	 * @param name	the file that was being read when the error occurred
 	 * @param msg	the error message
 	 */
 	public void readError(String name, String msg);
@@ -16,7 +16,7 @@ public interface FileErrorListener {
 	/**
 	 * Notify an input error in the presence of an exception.
 	 * 
-	 * @param node	the file that was being read when the error occurred
+	 * @param name	the file that was being read when the error occurred
 	 * @param msg	the error message
 	 * @param e		the exception that notified the error in the first place
 	 */
@@ -25,7 +25,7 @@ public interface FileErrorListener {
 	/**
 	 * Notify an input warning.
 	 * 
-	 * @param node	the file that was being read when the warning condition occurred
+	 * @param name	the file that was being read when the warning condition occurred
 	 * @param msg	the warning message
 	 */
 	public void readWarning(String name, String msg);
