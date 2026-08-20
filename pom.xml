@@ -10,7 +10,7 @@
 
     <groupId>it.twenfir</groupId>
     <artifactId>twenfir-antlr</artifactId>
-    <version>0.0.17-SNAPSHOT</version>
+    <version>0.0.16-SNAPSHOT</version>
 
     <name>Twenty-First ANTLR Add-ons</name>
     <description>Add-ons for the ANTLR parser generator</description>
