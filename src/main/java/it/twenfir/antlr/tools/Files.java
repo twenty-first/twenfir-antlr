@@ -70,7 +70,7 @@ public class Files {
 	 * @param name the name of the source file to be read
 	 * @param path a list of directories or classpath locations where the file may be found
 	 * @param charset the character set in which the file is encoded
-	 * @param a custom error listener
+	 * @param listener a custom error listener
 	 * @return a string containing the file's text
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
@@ -105,7 +105,7 @@ public class Files {
 	 * @param name the name of the source file to be read
 	 * @param path a list of directories or classpath locations where the file may be found
 	 * @param valid predicate to perform validity test on the file
-	 * @param a custom error listener
+	 * @param listener a custom error listener
 	 * @return a string containing the file's text
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
@@ -124,7 +124,7 @@ public class Files {
 	 * @param path a list of directories or classpath locations where the file may be found
 	 * @param charset the character set in which the file is encoded
 	 * @param valid predicate to perform validity test on the file
-	 * @param a custom error listener
+	 * @param listener a custom error listener
 	 * @return a string containing the file's text
 	 * @throws FileNotFoundException if the file is not found
 	 * @throws IOException in case of unexpected I/O errors
